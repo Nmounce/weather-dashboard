@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link src="style.css">
+    <title>Weather Dashboard</title>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="title">Weather Dashboard</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 search">
+                <h2 class="search-caption">Search for a city:</h2>
+                <div class="search-box">
+                    <input type="text" class="form" id="search-city" , aria-label="City Search">
+                    <div class="submit">
+                        <button class="search-button">
+                            <i class="fa fa-search">
+                                ::before
+                            </i>
+                        </button>
+                    </div>
+                </div>
+                <button class="clear-history">Clear History</button>
+                <ul class="saved-searches-list"></ul>
+            </div>
+            <div class="col-sm-8 current-city-display">
+                <div class="now">
+                    <div class="col-sm-12">
+                        <h3 class="city-name"></h3>
+                        <p>"Temperature:" <span class="current" id="temp"></span></p>
+                        <p>"Humidity:" <span class="current" id="humidity"></span></p>
+                        <p>"Wind Speed:" <span class="current" id="wind"></span></p>
+                        <p>"UV Index:" <span class="current" id="uv"></span></p>
+                </div>
+            </div>
+            <div class="forecast">
+                <h3>5-Day Forecast:</h3>
+                <div class="row-cards">
+                    <div class="forecast-card">
+                        <p id="fDate0"></p>
+                        <p id="Img0"></p>
+                        <p>Temp:<span id="fTemp0"></span></p>
+                        <p>Humidity:<span id="fHum0"></span></p>
+                    </div>
+                    <div class="forecast-card">
+                        <p id="fDate0"></p>
+                        <p id="Img0"></p>
+                        <p>Temp:<span id="fTemp0"></span></p>
+                        <p>Humidity:<span id="fHum0"></span></p>
+                    </div>
+                    <div class="forecast-card">
+                        <p id="fDate0"></p>
+                        <p id="Img0"></p>
+                        <p>Temp:<span id="fTemp0"></span></p>
+                        <p>Humidity:<span id="fHum0"></span></p>
+                    </div>
+                    <div class="forecast-card">
+                        <p id="fDate0"></p>
+                        <p id="Img0"></p>
+                        <p>Temp:<span id="fTemp0"></span></p>
+                        <p>Humidity:<span id="fHum0"></span></p>
+                    </div>
+                    <div class="forecast-card">
+                        <p id="fDate0"></p>
+                        <p id="Img0"></p>
+                        <p>Temp:<span id="fTemp0"></span></p>
+                        <p>Humidity:<span id="fHum0"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
