@@ -10,167 +10,102 @@
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
 
-//Declare a variable to store the searched city
-var city="";
-// variable declaration
-var searchCity = $("#search-city");
-var searchButton = $("#search-button");
-var clearButton = $(".clear-history");
-var currentCity = $("#current-weather");
-var currentTemperature = $("#ftemp");
-var currentHumidty= $("#fhum");
-var currentWSpeed=$("#fwind");
-var currentUvindex= $("#fuv");
-var sCity=[];
-// searches the city to see if it exists in the entries from the storage
-function find(c){
-    for (var i=0; i<sCity.length; i++){
-        if(c.toUpperCase()===sCity[i]){
-            return -1;
-        }
-    }
-    return 1;
-}
-//Set up the API key
-var APIKey="7c154c5ea2f74fae08300d415441b24b";
-// Display the current and future weather to the user after grabbing the city form the input text box.
-function displayWeather(event){
-    event.preventDefault();
-    if(searchCity.val().trim()!==""){
-        city=searchCity.val().trim();
-        currentWeather(city);
-    }
-}
-// Here we create the AJAX call
-function currentWeather(city){
-    // Here we build the URL so we can get a data from server side.
-    var queryURL= "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=" + APIKey;
-    $.ajax({
-        url:queryURL,
-        method:"GET",
-    }).then(function(response){
+//fetch weather apis
+const apiKey = "a1c9f847304441af05d3fd7a41c5f939";
+const searchForm = document.querySelector("#search");
 
-        // parse the response to display the current weather including the City name. the Date and the weather icon. 
-        console.log(response);
-        //Dta object from server side Api for icon property.
-        var weathericon= response.weather[0].icon;
-        var iconurl="https://openweathermap.org/img/wn/"+weathericon +"@2x.png";
-        // The date format method is taken from the  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
-        var date=new Date(response.dt*1000).toLocaleDateString();
-        //parse the response for name of city and concanatig the date and icon.
-        $(currentCity).html(response.name +"("+date+")" + "<img src="+iconurl+">");
-        // parse the response to display the current temperature.
-        // Convert the temp to fahrenheit
+function getCurrent(city) {
+    const query = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+    saveSearch(city);
+    fetch(query)
+        .then((data) => {
+            return data.json();
+        })
+        .then((info) => {
+            console.log(info);
+            fiveDay(info.coord.lat, info.coord.lon);
+        });
+}
 
-        var tempF = (response.main.temp - 273.15) * 1.80 + 32;
-        $(currentTemperature).html((tempF).toFixed(2)+"&#8457");
-        // Display the Humidity
-        $(currentHumidty).html(response.main.humidity+"%");
-        //Display Wind speed and convert to MPH
-        var ws=response.wind.speed;
-        var windsmph=(ws*2.237).toFixed(1);
-        $(currentWSpeed).html(windsmph+"MPH");
-        // Display UVIndex.
-        //By Geographic coordinates method and using appid and coordinates as a parameter we are going build our uv query url inside the function below.
-        UVIndex(response.coord.lon,response.coord.lat);
-        forecast(response.id);
-        if(response.cod==200){
-            sCity=JSON.parse(localStorage.getItem("cityname"));
-            console.log(sCity);
-            if (sCity==null){
-                sCity=[];
-                sCity.push(city.toUpperCase()
-                );
-                localStorage.setItem("cityname",JSON.stringify(sCity));
-                addToList(city);
+function fiveDay(lat, lon) {
+    const query2 = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${apiKey}`;
+
+    fetch(query2)
+        .then((forecast) => {
+            return forecast.json();
+        })
+        .then((data) => {
+            console.log(data);
+        });
+}
+
+searchForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    getCurrent(document.querySelector("#input").value);
+});
+
+
+
+//Save to local storage
+// const newCity = document.querySelector("#recent-searches");
+
+function saveSearch(newCity) {
+    // let rendered = false;
+    // for (let i = 0; i < localStorage.length; i++) {
+    //     if(localStorage ["cities" + i] === newCity) {
+    //         rendered = true;
+    //         break;
+    //     }
+    // }
+    // if(rendered === false) {
+    //     localStorage.setItem("cities" + localStorage.length, newCity)
+    // }
+
+    var cities=JSON.parse(localStorage.getItem("cities"));
+    if (!cities) {
+       cities=[]
+    }
+    cities.push(newCity)
+    localStorage.setItem("cities", JSON.stringify(cities))
+};
+
+//render search history list
+var lastSearch = "";
+
+var renderedCities = () => {
+    var cities=JSON.parse(localStorage.getItem("cities"));
+    var currentCity = document.querySelector("#input").value;
+    $('#recent-searches').empty();
+    if (!cities) {
+            $('#input').attr("value", "Sacramento");
+    } else {
+        // $('#input').attr("value", "");
+        for (let i = 0; i < cities.length; i++) {
+            let city = cities[i];
+            let cityE1;
+            if(currentCity===""){
+                currentCity=lastSearch;
             }
-            else {
-                if(find(city)>0){
-                    sCity.push(city.toUpperCase());
-                    localStorage.setItem("cityname",JSON.stringify(sCity));
-                    addToList(city);
-                }
+            if(city === currentCity) {
+                cityE1 = `<button type="button" class="active-display">${city}</button></li>`;
+            }else {
+                cityE1 = `<button type="button" class="inactive-display">${city}</button></li>`;
             }
+            $('#recent-searches').prepend(cityE1);
         }
-
-    });
-}
-    // This function returns the UVIindex response.
-function UVIndex(ln,lt){
-    //lets build the url for uvindex.
-    var uvqURL="https://api.openweathermap.org/data/2.5/uvi?appid="+ APIKey+"&lat="+lt+"&lon="+ln;
-    $.ajax({
-            url:uvqURL,
-            method:"GET"
-            }).then(function(response){
-                $(currentUvindex).html(response.value);
-            });
-}
-// Here we display the 5 days forecast for the current city.
-function forecast(cityid){
-    var dayover= false;
-    var queryforecastURL="https://api.openweathermap.org/data/2.5/forecast?id="+cityid+"&appid="+APIKey;
-    $.ajax({
-        url:queryforecastURL,
-        method:"GET"
-    }).then(function(response){
-        for (i=0;i<5;i++){
-            var date= new Date((response.list[((i+1)*8)-1].dt)*1000).toLocaleDateString();
-            var iconcode= response.list[((i+1)*8)-1].weather[0].icon;
-            var iconurl="https://openweathermap.org/img/wn/"+iconcode+".png";
-            var tempK= response.list[((i+1)*8)-1].main.temp;
-            var tempF=(((tempK-273.5)*1.80)+32).toFixed(2);
-            var humidity= response.list[((i+1)*8)-1].main.humidity;
-            $("#fDate"+i).html(date);
-            $("#fImg"+i).html("<img src="+iconurl+">");
-            $("#ftemp"+i).html(tempF+"&#8457");
-            $("#fhum"+i).html(humidity+"%");
-        }
-    });
-}
-console.log(forecast);
-
-//Daynamically add the past city on the search history
-function addToList(c){
-    var listEl= $("<li>"+c.toUpperCase()+"</li>");
-    $(listEl).attr("class","list-group");
-    $(listEl).attr("data-value",c.toUpperCase());
-    $(".list-group").append(listEl);
-}
-// display the past search again when the list group item is clicked in search history
-function invokePastSearch(event){
-    var liEl=event.target;
-    if (event.target.matches("li")){
-        city=liEl.textContent.trim();
-        currentWeather(city);
     }
+};
+$('#recent-searches').html(renderedCities);
+// //saved search button event listener
+// $("#recent-searches").on("click", (event) => {
+//     event.preventDefault();
+//     $("#search").val();
+//     getCurrent(event);
+// });
 
-}
 
-// render function
-function loadlastCity(){
-    $("ul").empty();
-    var sCity = JSON.parse(localStorage.getItem("cityname"));
-    if(sCity!==null){
-        sCity=JSON.parse(localStorage.getItem("cityname"));
-        for(i=0; i<sCity.length;i++){
-            addToList(sCity[i]);
-        }
-        city=sCity[i-1];
-        currentWeather(city);
-    }
-
-}
-//Clear the search history from the page
-function clearHistory(event){
-    event.preventDefault();
-    sCity=[];
-    localStorage.removeItem("cityname");
-    document.location.reload();
-
-}
-//Click Handlers
-$("#search-button").on("click",displayWeather);
-$(document).on("click",invokePastSearch);
-$(window).on("load",loadlastCity);
-$(".clear-history").on("click",clearHistory);
+//clear local storage
+$("#clear-history").on("click", (event) => {
+    localStorage.clear();
+    renderedCities();
+});

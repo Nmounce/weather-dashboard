@@ -5,48 +5,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link src="/assets/style.css">
+    <link rel="stylesheet" href="style.css">
     <title>Weather Dashboard</title>
 </head>
 
 <body>
-    <div id="header" class="jumbotron">
+    <div class="jumbotron">
         <h1 class="title">Weather Dashboard</h1>
     </div>
     <div class="container">
         <div class="row">
             <div id="content">
-                <form class="search">
-                    <label for="search-caption">Search for a city:</label>
-                    <div class="search-box">
-                        <input type="text" name="city" value="Sacramento" class="form" id="search-city" aria-label="City Search">
-                        <button id="search-button" class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
-                    </div>
+                <form id="search">
+                    <h2>Search for a City:</h2>
+                    <input id="input" type="text" name="city" value=""></input>
+                    <button id="search-button">Submit</button>
                 </form>
-                <div id="search-error"></div>
-                <ul id="saved-searches" class="list-group"></ul>
-                <button class="clear-history">Clear History</button>
-            </div>
-            <div class="weather-cards">
-                <div id="current-weather" class="col-md-9 mt-4"></div>
-                    <p id="fDate"></p>
-                    <p id="fImg"></p>
-                    <p>Temp:<span id="ftemp"></span></p>
-                    <p>Humidity:<span id="fhum"></span></p>
-                    <p>Wind Speed:<span id="fwind"></span></p>
-                    <p>UV Index:<span id="fuv"></span></p>
-                <div id="forecast" class="mt-5">
-                </div>
-            </div>
+                <ul id="recent-searches" class="list-group"></ul>
+                <button id="clear-history" href="#">Clear History</button>
         </div>
-    </div>
+            <div id="current-weather">weather</div>
+            <div id="five-day-forecast">5</div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <!-- moment.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="/assets/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
