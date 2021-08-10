@@ -14,8 +14,11 @@
 const apiKey = "a1c9f847304441af05d3fd7a41c5f939";
 const searchForm = document.querySelector("#search");
 
+// const displayFive = document.querySelector("#five-day-forecast");
+
 function getCurrent(city) {
     const query = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+    const append = document.createElement('p');
     saveSearch(city);
     fetch(query)
         .then((data) => {
@@ -24,8 +27,13 @@ function getCurrent(city) {
         .then((info) => {
             console.log(info);
             fiveDay(info.coord.lat, info.coord.lon);
-        });
-}
+        })
+        .catch((error) => {
+            console.error("Fetch Error:", error);
+        })
+    };
+
+
 
 function fiveDay(lat, lon) {
     const query2 = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${apiKey}`;
@@ -42,25 +50,11 @@ function fiveDay(lat, lon) {
 searchForm.addEventListener("submit", function (e) {
     e.preventDefault();
     getCurrent(document.querySelector("#input").value);
+    return getCurrent();
+    return fiveDay();
 });
 
-
-
-//Save to local storage
-// const newCity = document.querySelector("#recent-searches");
-
 function saveSearch(newCity) {
-    // let rendered = false;
-    // for (let i = 0; i < localStorage.length; i++) {
-    //     if(localStorage ["cities" + i] === newCity) {
-    //         rendered = true;
-    //         break;
-    //     }
-    // }
-    // if(rendered === false) {
-    //     localStorage.setItem("cities" + localStorage.length, newCity)
-    // }
-
     var cities=JSON.parse(localStorage.getItem("cities"));
     if (!cities) {
        cities=[]
@@ -95,9 +89,10 @@ var renderedCities = () => {
         }
     }
 };
+
 $('#recent-searches').html(renderedCities);
 // //saved search button event listener
-// $("#recent-searches").on("click", (event) => {
+// $("#list-group").on("click", (event) => {
 //     event.preventDefault();
 //     $("#search").val();
 //     getCurrent(event);

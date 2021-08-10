@@ -3,7 +3,7 @@ Homework Assignment #5- UC Davis Bootcamp
 # Description
 Weather Dashboard is a weather application that utilizes the Open Weather API to retrieve weather data for cities searched by the user. 
 
-Live application deployed at: 
+Live application deployed at:
 
 The following image demonstrates the application functionality:
 
@@ -43,7 +43,7 @@ Moment.js
 * features a "clear history" button that deletes the recent searches list.
 * includes weather icons that display current conditions such as cloudy, rainy, sunny, etc.
 * displays current date and future dates on forecasted cards.
-* displays temperature, wind speed, humidity and uv index or current city. 
+* displays temperature, wind speed, humidity and uv index or current city.
 
 
 ## Setup
