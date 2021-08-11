@@ -13,19 +13,35 @@
 //fetch weather apis
 const apiKey = "a1c9f847304441af05d3fd7a41c5f939";
 const searchForm = document.querySelector("#search");
+const cityDisplay = document.querySelector("#city-name");
+const dateDisplay = document.querySelector("#date");
+const tempDisplay = document.querySelector("#temperature");
+const windDisplay = document.querySelector("#wind-speed");
+const humDisplay = document.querySelector("#humidity");
+const uviDisplay = document.querySelector("#uvi");
+const fiveDayList = document.querySelector(".card");
 
 // const displayFive = document.querySelector("#five-day-forecast");
 
 function getCurrent(city) {
-    const query = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+    const query = `https://api.openweathermap.org/data/2.5/weather?q=${city}&date&units=imperial&appid=${apiKey}`;
     const append = document.createElement('p');
     saveSearch(city);
+    renderedCities();
+    fiveDayList.innerHTML="";
     fetch(query)
-        .then((data) => {
-            return data.json();
+        .then((info) => {
+            return info.json();
         })
         .then((info) => {
-            console.log(info);
+            console.log(info);``
+            dateDisplay.textContent=moment();
+            cityDisplay.textContent=info.name;
+            tempDisplay.textContent=info.main.temp;
+            windDisplay.textContent=info.wind.speed;
+            humDisplay.textContent=info.main.humidity;
+            // uviDisplay.textContent=info
+
             fiveDay(info.coord.lat, info.coord.lon);
         })
         .catch((error) => {
@@ -36,7 +52,7 @@ function getCurrent(city) {
 
 
 function fiveDay(lat, lon) {
-    const query2 = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${apiKey}`;
+    const query2 = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&date&units=imperial&exclude=hourly,minutely&appid=${apiKey}`;
 
     fetch(query2)
         .then((forecast) => {
@@ -44,14 +60,22 @@ function fiveDay(lat, lon) {
         })
         .then((data) => {
             console.log(data);
+            for (let i = 1; i < 6; i++) {
+                var listItem= document.createElement("li");
+                fiveDayList.appendChild(listItem);
+                var details=`<h4>${data.daily[i].temp.day}°F</h4>
+                <h4>${data.daily[i].weather[0].icon}</h4>
+                <h4>Temp:   ${data.daily[i].temp.day}°F</h4>
+                <h4>Humidity:   ${data.daily[i].humidity}%</h4>
+                <h4>Wind Speed:   ${data.daily[i].wind_speed} MPH</h4>`;
+                listItem.innerHTML=details;
+            }
         });
 }
 
 searchForm.addEventListener("submit", function (e) {
     e.preventDefault();
     getCurrent(document.querySelector("#input").value);
-    return getCurrent();
-    return fiveDay();
 });
 
 function saveSearch(newCity) {
@@ -80,27 +104,31 @@ var renderedCities = () => {
             if(currentCity===""){
                 currentCity=lastSearch;
             }
-            if(city === currentCity) {
-                cityE1 = `<button type="button" class="active-display">${city}</button></li>`;
-            }else {
-                cityE1 = `<button type="button" class="inactive-display">${city}</button></li>`;
-            }
+            // if(city === currentCity) {
+                // cityE1 = `<button type="button" class="active-display">${city}</button></li>`;
+            // }else {
+                cityE1 = `<button type="button" class="inactive-display recent-search">${city}</button></li>`;
+            // }
             $('#recent-searches').prepend(cityE1);
+            document.querySelector(".recent-search").addEventListener("click", function() {
+                getCurrent(this.textContent);
+            })
         }
     }
 };
 
 $('#recent-searches').html(renderedCities);
-// //saved search button event listener
-// $("#list-group").on("click", (event) => {
-//     event.preventDefault();
-//     $("#search").val();
-//     getCurrent(event);
-// });
+//saved search button event listener
+$("#list-group").on("click", (event) => {
+    event.preventDefault();
+    $("#search").val();
+    getCurrent(event);
+});
 
 
 //clear local storage
 $("#clear-history").on("click", (event) => {
     localStorage.clear();
+    event.preventDefault();
     renderedCities();
 });

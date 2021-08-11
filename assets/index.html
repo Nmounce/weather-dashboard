@@ -14,21 +14,45 @@
         <h1 class="title">Weather Dashboard</h1>
     </div>
     <div class="container">
-        <div class="row">
-            <div id="content">
-                <form id="search">
-                    <h2 id="search-caption">Search for a City:</h2>
-                        <input id="input" type="text" name="city" value=""></input>
-                        <button class="functionBtns" id="search-button">Search</button>
-                        <ul id="recent-searches" class="list-group"></ul>
-                        <button class = "functionBtns" id="clear-history" href="#">Clear History</button>
-                </form>
+        <form id="search">
+            <div class="search-bar">
+                <h2 id="search-caption">Search for a City:</h2>
+                <input id="input" type="text" name="city" value=""></input>
+                <button class="functionBtns" id="search-button">Search</button>
+            </div>
+            <div id ="recent">
+                <ul id="recent-searches" class="list-group"></ul>
+                <button class="functionBtns" id="clear-history" href="#">Clear History</button>
+            </div>
+        </form>
+        <div class="weather">
+            <div id="current-weather">
+                <h1 id="city-name"></h1>
+                <h2 id="date"></h2>
+                <div>
+                    <h4>Temperature:</h4>
+                    <p id="temperature"></p>
+                    <h4>°F</h4>
+                </div>
+                <div>
+                    <h4>Wind Speed:</h4>
+                    <p id="wind-speed"></p>
+                    <h4>MPH</h4>
+                </div>
+                <div>
+                    <h4>Humidity:</h4>
+                    <p id="humidity"></p>
+                    <h4>%</h4>
+                </div>
+            </div>
+            <div id="five-day-forecast">
+                <h2>5-Day Forecast:</h2>
+                <ul class="card"></ul>
             </div>
         </div>
     </div>
-    <div id="current-weather">weather</div>
-    <div id="five-day-forecast">5</div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
