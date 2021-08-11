@@ -61,9 +61,6 @@ button {
     background-color: rgb(173, 171, 171);
 }
 
-h2 {
-    font-size: 32px;
-}
 /* Current weather display */
 .weather {
     width: 70%;

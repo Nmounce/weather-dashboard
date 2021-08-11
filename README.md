@@ -28,6 +28,10 @@ Before you continue, ensure that you have met the following requirements:
 ## General Information
 This application allows users to view the current and 5-day forecasted weather conditions for any city. Users can manually enter the city name into the search bar. The program also stores recently viewed cities in local storage and lists them under the search bar for quick access.
 
+Live application deployed at: https://nmounce.github.io/weather-dashboard/
+
+The following image demonstrates the applications functionality:
+assets\Capture.PNG
 
 ## Technologies Used
 HTML

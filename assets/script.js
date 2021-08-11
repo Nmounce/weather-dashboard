@@ -41,7 +41,6 @@ function getCurrent(city) {
             tempDisplay.textContent=info.main.temp;
             windDisplay.textContent=info.wind.speed;
             humDisplay.textContent=info.main.humidity;
-
             fiveDay(info.coord.lat, info.coord.lon);
         })
         .catch((error) => {
