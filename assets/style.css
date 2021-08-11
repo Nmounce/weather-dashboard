@@ -1,6 +1,8 @@
 body {
     font-family:Arial, Helvetica, sans-serif;
 }
+
+/* Jumbotron */
 .jumbotron {
     text-align: center;
     background-image: linear-gradient(to right, rgb(52, 54, 167) , rgb(35, 13, 95));
@@ -9,6 +11,7 @@ body {
     font-weight: 800;
 }
 
+/* Search Container */
 .container {
     width: 100%;
     display: inline-flex;
@@ -47,6 +50,10 @@ button {
     border-radius: 10px;
 }
 
+.functionBtns {
+    background-color: dodgerblue;
+    color: gainsboro;
+}
 .inactive-display {
     width: 112%;
     margin-left: -12%;
@@ -54,21 +61,43 @@ button {
     background-color: rgb(173, 171, 171);
 }
 
-.functionBtns {
-    background-color: dodgerblue;
-    color: gainsboro;
+h2 {
+    font-size: 32px;
 }
-
-/* Weather card styling */
+/* Current weather display */
 .weather {
     width: 70%;
 }
-#current-weather {
-    height: 300px;
-    border: black thick;
-    background-color: burlywood;
-    margin-right:2%;
+
+.details {
+    display: flex;
+    margin-top: -8%;
 }
+#date {
+    margin-top:-2%;
+}
+
+#icon {
+    margin-bottom: 5%;
+}
+
+h4 {
+    font-size: 28px;
+}
+
+.result {
+    font-size: 28px;
+    padding: 1% 2% 0 4%;
+}
+.current-weather {
+    width: 100%;
+    height: 300px;
+    border: black solid 2px;
+    margin-top: 1%;
+}
+
+
+/* Forecast styling */
 
 #five-day-forecast {
     height: 300px;
@@ -88,6 +117,11 @@ li {
     margin-right: 3%;
     color: white;
 }
+
+h3 {
+    font-size: 14px;
+}
+
 
 /* UV coloring scheme for UV display */
 .uv-favorable{

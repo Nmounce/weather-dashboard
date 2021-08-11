@@ -15,11 +15,12 @@ const apiKey = "a1c9f847304441af05d3fd7a41c5f939";
 const searchForm = document.querySelector("#search");
 const cityDisplay = document.querySelector("#city-name");
 const dateDisplay = document.querySelector("#date");
+const iconDisplay = document.querySelector("#icon");
 const tempDisplay = document.querySelector("#temperature");
 const windDisplay = document.querySelector("#wind-speed");
 const humDisplay = document.querySelector("#humidity");
-const uviDisplay = document.querySelector("#uvi");
 const fiveDayList = document.querySelector(".card");
+
 
 // const displayFive = document.querySelector("#five-day-forecast");
 
@@ -34,13 +35,12 @@ function getCurrent(city) {
             return info.json();
         })
         .then((info) => {
-            console.log(info);``
-            dateDisplay.textContent=moment();
+            console.log(info);
+            dateDisplay.textContent=moment().format('L');
             cityDisplay.textContent=info.name;
             tempDisplay.textContent=info.main.temp;
             windDisplay.textContent=info.wind.speed;
             humDisplay.textContent=info.main.humidity;
-            // uviDisplay.textContent=info
 
             fiveDay(info.coord.lat, info.coord.lon);
         })
@@ -53,7 +53,6 @@ function getCurrent(city) {
 
 function fiveDay(lat, lon) {
     const query2 = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&date&units=imperial&exclude=hourly,minutely&appid=${apiKey}`;
-
     fetch(query2)
         .then((forecast) => {
             return forecast.json();
@@ -62,12 +61,13 @@ function fiveDay(lat, lon) {
             console.log(data);
             for (let i = 1; i < 6; i++) {
                 var listItem= document.createElement("li");
+                var imgSrc = `https://openweathermap.org/img/wn/10d@2x.png`;
                 fiveDayList.appendChild(listItem);
-                var details=`<h4>${data.daily[i].temp.day}°F</h4>
-                <h4>${data.daily[i].weather[0].icon}</h4>
-                <h4>Temp:   ${data.daily[i].temp.day}°F</h4>
-                <h4>Humidity:   ${data.daily[i].humidity}%</h4>
-                <h4>Wind Speed:   ${data.daily[i].wind_speed} MPH</h4>`;
+                var details=`<h3>${moment().add(1, 'days').format('L')}</h3>
+                <img>${imgSrc}</img>
+                <h3>Temp:   ${data.daily[i].temp.day}°F</h3>
+                <h3>Humidity:   ${data.daily[i].humidity}%</h3>
+                <h3>Wind Speed:   ${data.daily[i].wind_speed} MPH</h3>`;
                 listItem.innerHTML=details;
             }
         });

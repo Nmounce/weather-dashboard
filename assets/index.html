@@ -26,31 +26,33 @@
             </div>
         </form>
         <div class="weather">
-            <div id="current-weather">
+            <div class="current-weather">
                 <h1 id="city-name"></h1>
                 <h2 id="date"></h2>
-                <div>
+                <div id="icon"><img id="icon" src="https://openweathermap.org/img/wn/" alt="weather icon"</div>
+                <div class="details">
                     <h4>Temperature:</h4>
-                    <p id="temperature"></p>
+                    <p id="temperature" class="result"></p>
                     <h4>°F</h4>
                 </div>
-                <div>
+                <div class="details">
                     <h4>Wind Speed:</h4>
-                    <p id="wind-speed"></p>
+                    <p id="wind-speed" class="result"></p>
                     <h4>MPH</h4>
                 </div>
-                <div>
+                <div class="details">
                     <h4>Humidity:</h4>
-                    <p id="humidity"></p>
+                    <p id="humidity" class="result"></p>
                     <h4>%</h4>
                 </div>
             </div>
-            <div id="five-day-forecast">
-                <h2>5-Day Forecast:</h2>
-                <ul class="card"></ul>
-            </div>
+        </div>
+        <div id="five-day-forecast">
+            <h2>5-Day Forecast:</h2>
+            <ul class="card"></ul>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="script.js"></script>
